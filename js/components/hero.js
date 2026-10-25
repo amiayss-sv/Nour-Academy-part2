@@ -11,15 +11,15 @@ export default class Hero {
       <span class="shape s2">✏️</span>
     </div>
     
-    <div class="container">
+    <div class="page-container">
       <div class="hero-grid">
         <div class="hero-copy reveal">
           <span class="eyebrow sun">Espace parents — Nour Academy</span>
           <h1>Trouvez le bon cours, <span class="squiggle">sans vous déplacer</span></h1>
           <p class="hero-lead">Nour Academy accompagne vos enfants du primaire au Bac dans ses 3 centres de Nador. Parcourez le catalogue, choisissez vos cours et envoyez un dossier d'inscription complet en quelques minutes.</p>
           <div class="hero-cta">
-            <a class="btn btn-coral btn-lg" href="#catalogue">Voir les cours</a>
-            <a class="btn btn-ghost btn-lg" href="#inscription">Commencer l'inscription</a>
+            <a class="button button-coral button-large" href="#catalogue">Voir les cours</a>
+            <a class="button button-ghost button-large" href="#inscription">Commencer l'inscription</a>
           </div>
           <div class="hero-trust">
             <span class="dot"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> 3 centres à Nador</span>

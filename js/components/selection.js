@@ -1,37 +1,38 @@
 import Store from "../store.js";
 
-export default class Selection {
-  constructor(store = new Store()) {
+
+export default class Selection  {
+  constructor(store = new Store(), catalogue) {
     this.element = document.createElement("section");
     this.element.className = "section";
     this.element.id = "selection";
     this.store = store;
+    this.catalogue = catalogue;
+
   }
 
   render() {
     this.element.innerHTML = `
-      <div class="container">
-        <div class="text-center reveal">
+      <div class="page-container">
+        <div class="center-text reveal">
           <span class="eyebrow leaf">Votre panier</span>
 
           <h2 class="section-title">Ma sélection de cours</h2>
 
-          <p class="section-lead mx-auto">
+          <p class="section-lead center-block">
             Ajoutez des cours depuis le catalogue ci-dessus ; retirez-les
             ici si besoin. Un même cours ne peut pas être ajouté deux fois.
           </p>
         </div>
 
-        <div class="selection-wrap mt-4 reveal">
+        <div class="selection-wrap space-top-large reveal">
           <div class="selection-list" id="selection-list"></div>
-
           <div class="selection-summary">
             <div class="selection-total">
               <span>Total mensuel</span>
               <strong id="selection-total-amount">0 MAD</strong>
             </div>
-
-            <a class="btn btn-coral btn-lg" href="#inscription">
+            <a class="button button-coral button-large" href="#inscription">
               Continuer vers l'inscription
             </a>
           </div>
@@ -39,13 +40,13 @@ export default class Selection {
       </div>
     `;
 
-    this.renderCourses();
+    this.renderMycours();
     this.removeCours();
 
     return this.element;
   }
 
-  renderCourses() {
+  renderMycours() {
     const list = this.element.querySelector("#selection-list");
     const totalElement = this.element.querySelector(
       "#selection-total-amount"
@@ -53,7 +54,6 @@ export default class Selection {
 
     list.innerHTML = "";
 
-    // Keep only one course for each ID.
     const ids = new Set();
     const courses = this.store.getCours().filter((course) => {
       const id = String(course.id);
@@ -85,10 +85,12 @@ export default class Selection {
       item.dataset.courseId = course.id;
 
       item.innerHTML = `
+      <input type ="hidden" value="${course.id}" />
         <div class="selection-item-info">
           <strong></strong>
           <span></span>
         </div>
+
 
         <div class="selection-item-price"></div>
 
@@ -103,8 +105,10 @@ export default class Selection {
               stroke="currentColor"
               stroke-width="2.2"
               stroke-linecap="round"
+
             />
           </svg>
+
         </button>
       `;
 
@@ -126,25 +130,28 @@ export default class Selection {
   }
 
   removeCours() {
+
     const list = this.element.querySelector("#selection-list");
 
     list.addEventListener("click", (event) => {
       const button = event.target.closest(".selection-remove");
       if (!button) return;
-
       const item = button.closest(".selection-item");
       const id = item.dataset.courseId;
+      this.store.removeCours(id);
+      this.renderMycours();
 
-      // Remove any stored duplicates of this course too.
-      const courses = this.store.getCours().filter(
-        (course) => String(course.id) === id
-      );
+        const course = this.catalogue.courses.find(
+          (course) => String(course.id) === String(id)
+        );
 
-      courses.forEach((course) => {
-        this.store.removeCours(course);
-      });
+        if(course) {
+          course.seats = 1;
+        }
 
-      this.renderCourses();
+        this.catalogue.filterCourses();
+     
     });
   }
+
 }

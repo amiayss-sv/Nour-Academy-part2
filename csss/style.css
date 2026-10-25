@@ -1,16 +1,136 @@
-/* progressive enhancement: reveal content visible without JS */
+
+
+* {
+   box-sizing: border-box; 
+  }
+
+
+body { 
+  margin: 0; 
+}
+
+h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: 0.5rem; }
+
+
+h1 { font-size: calc(1.375rem + 1.5vw); }
+
+h2 { font-size: calc(1.325rem + 0.9vw); }
+
+h3 { font-size: calc(1.3rem + 0.6vw); }
+
+h4 { font-size: calc(1.275rem + 0.3vw); }
+
+h5 { font-size: 1.25rem; }
+
+h6 { font-size: 1rem; }
+
+p, ul, ol { margin-top: 0; margin-bottom: 1rem; }
+
+ul, ol { padding-left: 2rem; }
+strong, b { font-weight: bolder; }
+small { font-size: 0.875em; }
+img, svg { vertical-align: middle; }
+label { display: inline-block; }
+button, input, select, textarea {
+  margin: 0;
+  font: inherit;
+}
+button, select { text-transform: none; }
+button:not(:disabled) { cursor: pointer; }
+[hidden] { display: none !important; }
+
+.page-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+.layout-row {
+  --space-x: 1.5rem;
+  --space-y: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: calc(-1 * var(--space-y));
+  margin-left: calc(-0.5 * var(--space-x));
+  margin-right: calc(-0.5 * var(--space-x));
+}
+.layout-row > * {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 100%;
+  padding-left: calc(var(--space-x) * 0.5);
+  padding-right: calc(var(--space-x) * 0.5);
+  margin-top: var(--space-y);
+}
+.spacing-small { --space-x: 1rem; --space-y: 1rem; }
+.spacing-large { --space-x: 1.5rem; --space-y: 1.5rem; }
+.width-half { flex: 0 0 auto; width: 50%; }
+.width-full { flex: 0 0 auto; width: 100%; }
+.flex { display: flex; }
+.items-center { align-items: center; }
+.space-between { justify-content: space-between; }
+.center-text { text-align: center; }
+.center-block { margin-left: auto; margin-right: auto; }
+.space-top-small { margin-top: 0.5rem; }
+.space-top-medium { margin-top: 1rem; }
+.space-top-large { margin-top: 1.5rem; }
+.no-bottom-space { margin-bottom: 0; }
+.space-bottom-medium { margin-bottom: 1rem; }
+.full-width { width: 100%; }
+.sticky-header { position: sticky; top: 0; z-index: 1020; }
+.intro-text { font-size: 1.25rem; font-weight: 300; }
+.menu-link { display: block; }
+.button {
+  display: inline-block;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  color: #212529;
+}
+.button:disabled { pointer-events: none; }
+.field-input, .field-select {
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.5;
+  appearance: none;
+}
+.field-select {
+  padding-right: 2.25rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+}
+@media (min-width: 576px) {
+  .width-half-small { flex: 0 0 auto; width: 50%; }
+}
+@media (min-width: 768px) {
+  .width-half-medium { flex: 0 0 auto; width: 50%; }
+}
+@media (min-width: 992px) {
+  .width-quarter-large { flex: 0 0 auto; width: 25%; }
+  .width-third-large { flex: 0 0 auto; width: 33.33333333%; }
+  .width-five-large { flex: 0 0 auto; width: 41.66666667%; }
+  .width-seven-large { flex: 0 0 auto; width: 58.33333333%; }
+  .hide-on-desktop { display: none !important; }
+}
+@media (min-width: 1200px) {
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.75rem; }
+  h4 { font-size: 1.5rem; }
+}
+
 html:not(.js) .reveal,html:not(.js) [class*="reveal"]{opacity:1!important;transform:none!important;filter:none!important}
 
-/* ==========================================================================
-   Nour Academy — Portail d'inscription (Espace parents)
-   Couche de design sur Bootstrap 5
-   Base reprise du template "Sprout", nettoyée pour ne garder que les
-   composants nécessaires au cahier de charge (catalogue, filtres,
-   sélection, formulaire d'inscription).
-   ========================================================================== */
 
 :root {
-  /* Palette principale */
   --sprout-coral: #ff7a59;
   --sprout-coral-dark: #f0603f;
   --sprout-sun: #ffc94d;
@@ -92,7 +212,7 @@ img { max-width: 100%; height: auto; }
 
 ::selection { background: var(--sprout-sun); color: var(--sprout-ink); }
 
-.container { max-width: 1180px; }
+.page-container { max-width: 1180px; }
 
 /* Focus visibility */
 a:focus-visible,
@@ -101,7 +221,7 @@ input:focus-visible,
 textarea:focus-visible,
 select:focus-visible,
 [tabindex]:focus-visible,
-.btn:focus-visible {
+.button:focus-visible {
   outline: 3px solid var(--sprout-sky-deep);
   outline-offset: 3px;
   border-radius: 6px;
@@ -133,7 +253,7 @@ select:focus-visible,
 
 .bg-cream { background-color: var(--sprout-cream); }
 .bg-cream-2 { background-color: var(--sprout-cream-2); }
-.bg-white { background-color: var(--sprout-white) !important; }
+.white-background { background-color: var(--sprout-white) !important; }
 
 .eyebrow {
   display: inline-flex;
@@ -172,7 +292,7 @@ select:focus-visible,
   color: var(--sprout-ink-soft);
   max-width: 620px;
 }
-.text-center .section-lead { margin-left: auto; margin-right: auto; }
+.center-text .section-lead { margin-left: auto; margin-right: auto; }
 
 .text-coral { color: var(--sprout-primary-dark) !important; }
 .text-sky { color: var(--sprout-sky-deep) !important; }
@@ -198,7 +318,7 @@ select:focus-visible,
 /* --------------------------------------------------------------------------
    Boutons
    -------------------------------------------------------------------------- */
-.btn {
+.button {
   font-family: var(--font-body);
   font-weight: 800;
   border-radius: var(--radius-pill);
@@ -207,41 +327,41 @@ select:focus-visible,
   transition: transform 0.18s ease, box-shadow 0.2s ease, background-color 0.2s ease;
   letter-spacing: 0.005em;
 }
-.btn:active { transform: translateY(1px); }
-.btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+.button:active { transform: translateY(1px); }
+.button:disabled { opacity: 0.55; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
 
-.btn-lg { padding: 1rem 2rem; font-size: 1.05rem; }
-.btn-sm { padding: 0.55rem 1.15rem; font-size: 0.9rem; }
+.button-large { padding: 1rem 2rem; font-size: 1.05rem; }
+.button-small { padding: 0.55rem 1.15rem; font-size: 0.9rem; }
 
-.btn-coral {
+.button-coral {
   background: var(--sprout-primary);
   color: #fff;
   box-shadow: var(--shadow-coral);
 }
-.btn-coral:hover {
+.button-coral:hover {
   background: var(--sprout-primary-dark);
   color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 18px 36px rgba(255, 122, 89, 0.42);
 }
 
-.btn-outline-coral {
+.button-outline-coral {
   background: transparent;
   color: var(--sprout-primary-dark);
   box-shadow: inset 0 0 0 2.5px var(--sprout-primary);
 }
-.btn-outline-coral:hover {
+.button-outline-coral:hover {
   background: var(--sprout-primary);
   color: #fff;
   transform: translateY(-2px);
 }
 
-.btn-ghost {
+.button-ghost {
   background: #fff;
   color: var(--sprout-ink);
   box-shadow: var(--shadow-sm);
 }
-.btn-ghost:hover { color: var(--sprout-primary-dark); transform: translateY(-2px); box-shadow: var(--shadow); }
+.button-ghost:hover { color: var(--sprout-primary-dark); transform: translateY(-2px); box-shadow: var(--shadow); }
 
 /* --------------------------------------------------------------------------
    Navbar
@@ -311,15 +431,15 @@ select:focus-visible,
   margin: 0;
   padding: 0;
 }
-.nav-menu a.nav-link {
+.nav-menu a.menu-link {
   font-weight: 700;
   color: var(--sprout-ink);
   padding: 0.5rem 0.9rem;
   border-radius: var(--radius-pill);
   font-size: 0.98rem;
 }
-.nav-menu a.nav-link:hover,
-.nav-menu a.nav-link.active {
+.nav-menu a.menu-link:hover,
+.nav-menu a.menu-link.active {
   color: var(--sprout-primary-dark);
   background: rgba(255, 122, 89, 0.1);
 }
@@ -343,9 +463,9 @@ select:focus-visible,
   }
   .nav-panel.open { transform: translateX(0); }
   .nav-menu { flex-direction: column; align-items: stretch; gap: 0.2rem; }
-  .nav-menu a.nav-link { padding: 0.85rem 1rem; font-size: 1.1rem; }
+  .nav-menu a.menu-link { padding: 0.85rem 1rem; font-size: 1.1rem; }
   .nav-cta { flex-direction: column; align-items: stretch; margin-top: 1.5rem; }
-  .nav-cta .btn { width: 100%; }
+  .nav-cta .button { width: 100%; }
   .nav-backdrop {
     position: fixed; inset: 0;
     background: rgba(59, 47, 42, 0.42);
@@ -536,7 +656,7 @@ select:focus-visible,
 .course-price .per { font-size: 0.9rem; color: var(--sprout-ink-soft); font-weight: 700; font-family: var(--font-body); }
 .course-seats { font-size: 0.9rem; font-weight: 700; color: var(--sprout-leaf-deep); margin-bottom: 1.1rem; }
 .course-seats.full { color: var(--sprout-berry); }
-.course-card .btn { margin-top: auto; }
+.course-card .button { margin-top: auto; }
 
 /* --------------------------------------------------------------------------
    Sélection / panier de cours
@@ -559,6 +679,7 @@ select:focus-visible,
   border-radius: var(--radius);
   padding: 1rem 1.25rem;
 }
+
 .selection-item-info strong { display: block; font-family: var(--font-display); font-size: 1.05rem; }
 .selection-item-info span { color: var(--sprout-ink-soft); font-size: 0.88rem; }
 .selection-item-price { font-weight: 800; color: var(--sprout-primary-dark); white-space: nowrap; }
@@ -581,7 +702,7 @@ select:focus-visible,
 .selection-total { font-weight: 800; display: flex; align-items: baseline; gap: 0.6rem; }
 .selection-total span { color: var(--sprout-ink-soft); font-size: 0.95rem; }
 .selection-total strong { font-family: var(--font-display); font-size: 1.6rem; color: var(--sprout-ink); }
-.selection-summary .btn { flex: 1 1 260px; }
+.selection-summary .button { flex: 1 1 260px; }
 
 /* --------------------------------------------------------------------------
    Formulaire d'inscription
@@ -599,7 +720,7 @@ select:focus-visible,
 }
 @media (max-width: 767.98px) { .enroll-band { padding: 2rem 1.5rem; border-radius: 28px; } }
 .enroll-band h2 { color: #fff; font-size: clamp(1.9rem, 4vw, 2.7rem); }
-.enroll-band .lead { color: rgba(255,255,255,0.92); font-size: 1.1rem; }
+.enroll-band .intro-text { color: rgba(255,255,255,0.92); font-size: 1.1rem; }
 .enroll-perk { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; margin-bottom: 0.6rem; }
 .enroll-perk svg { width: 22px; height: 22px; flex: 0 0 auto; color: #fff; }
 
@@ -610,8 +731,8 @@ select:focus-visible,
   box-shadow: var(--shadow-lg);
 }
 .registration-form h3 { font-size: 1.5rem; margin-bottom: 0.3rem; }
-.form-label { font-weight: 800; font-size: 0.85rem; color: var(--sprout-ink); margin-bottom: 0.35rem; letter-spacing: 0.01em; }
-.form-control, .form-select {
+.field-label { font-weight: 800; font-size: 0.85rem; color: var(--sprout-ink); margin-bottom: 0.35rem; letter-spacing: 0.01em; }
+.field-input, .field-select {
   border-radius: var(--radius-sm);
   border: 2px solid var(--sprout-line);
   padding: 0.7rem 1rem;
@@ -621,19 +742,19 @@ select:focus-visible,
   background-color: var(--sprout-cream);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
-.form-control:focus, .form-select:focus {
+.field-input:focus, .field-select:focus {
   border-color: var(--sprout-primary);
   box-shadow: 0 0 0 4px rgba(255,122,89,0.15);
   background-color: #fff;
   color: var(--sprout-ink);
 }
-.form-control::placeholder { color: #b7a89c; font-weight: 500; }
+.field-input::placeholder { color: #b7a89c; font-weight: 500; }
 .field-error { color: #d64545; font-size: 0.82rem; font-weight: 700; margin-top: 0.3rem; display: none; }
 .field-success { color: var(--sprout-leaf-deep); font-size: 0.82rem; font-weight: 700; margin-top: 0.3rem; display: none; }
-.form-control.invalid, .form-select.invalid { border-color: #e57373; background-color: #fff4f2; }
-.form-control.invalid + .field-error, .form-select.invalid ~ .field-error { display: block; }
-.form-control.valid, .form-select.valid { border-color: var(--sprout-leaf-deep); background-color: #f4fbf0; }
-.form-control.valid + .field-success, .form-select.valid ~ .field-success { display: block; }
+.field-input.invalid, .field-select.invalid { border-color: #e57373; background-color: #fff4f2; }
+.field-input.invalid + .field-error, .field-select.invalid ~ .field-error { display: block; }
+.field-input.valid, .field-select.valid { border-color: var(--sprout-leaf-deep); background-color: #f4fbf0; }
+.field-input.valid + .field-success, .field-select.valid ~ .field-success { display: block; }
 .form-note { font-size: 0.82rem; color: var(--sprout-ink-soft); }
 
 .form-check-row { display: flex; align-items: flex-start; gap: 0.7rem; }
@@ -660,7 +781,7 @@ select:focus-visible,
 .confirmation-list strong { font-weight: 800; }
 
 /* --------------------------------------------------------------------------
-   Footer
+   footer component 
    -------------------------------------------------------------------------- */
 .site-footer {
   background: var(--sprout-ink);
@@ -698,7 +819,7 @@ select:focus-visible,
 .footer-bottom a:hover { color: var(--sprout-sun); }
 
 /* --------------------------------------------------------------------------
-   Animation d'apparition (progressive enhancement, scopée sous .js)
+   animation d'apparition (progressive enhancement scopée sous .js)
    -------------------------------------------------------------------------- */
 .js .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .js .reveal.in { opacity: 1; transform: none; }

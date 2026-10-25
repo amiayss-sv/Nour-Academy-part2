@@ -6,9 +6,9 @@ export default class Footer {
 
   render() {
     this.element.innerHTML = `
-      <div class="container">
-        <div class="row g-4">
-          <div class="col-lg-4">
+      <div class="page-container">
+        <div class="layout-row spacing-large">
+          <div class="width-third-large">
             <a class="brand" href="#top">
               <span class="brand-mark" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none">
@@ -35,7 +35,7 @@ export default class Footer {
             </p>
           </div>
 
-          <div class="col-6 col-lg-3">
+          <div class="width-half width-quarter-large">
             <h4>Navigation</h4>
 
             <ul class="footer-links">
@@ -45,7 +45,7 @@ export default class Footer {
             </ul>
           </div>
 
-          <div class="col-lg-5">
+          <div class="width-five-large">
             <h4>Nos centres</h4>
 
             <ul class="footer-contact">
@@ -116,7 +116,7 @@ export default class Footer {
               </li>
             </ul>
 
-            <div class="mt-3">
+            <div class="space-top-medium">
               <div class="footer-hours">
                 <span>Lundi – Samedi</span>
                 <span>9h00 – 19h00</span>

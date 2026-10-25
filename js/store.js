@@ -6,15 +6,17 @@ export default class Store {
       localStorage.getItem("courses") || "[]");
   }
 
-
+  
   setSeats(id, count) {
     console.log(this.seats);
-    
+
     this.seats[id] = count;
+
     localStorage.setItem(
       "seats",
       JSON.stringify(this.seats)
     );
+
 }
 
 
@@ -32,7 +34,6 @@ getSeats(id, defaultSeats) {
 
   setCours(cours) {
     this.selectedCourses.push(cours);
-
     localStorage.setItem(
       "courses",
       this.convertString(this.selectedCourses)
@@ -43,14 +44,16 @@ getSeats(id, defaultSeats) {
     return this.selectedCourses;
   }
 
-  removeCours(element) {
+  removeCours(id) {
     this.selectedCourses = this.selectedCourses.filter(
-      (e) => e.id !== element.id
+      (course) => String(course.id) !== String(id)
     );
-
+    
     localStorage.setItem(
       "courses",
       this.convertString(this.selectedCourses)
     );
+      // add cours wheeen remove it in selection 
+    this.setSeats(id, 1);
   }
 }

@@ -6,10 +6,7 @@ export default class Store {
       localStorage.getItem("courses") || "[]");
   }
 
-  
   setSeats(id, count) {
-    console.log(this.seats);
-
     this.seats[id] = count;
 
     localStorage.setItem(

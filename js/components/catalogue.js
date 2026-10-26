@@ -11,23 +11,25 @@ export default class Catalogue  {
   }
 
   async fetchJsonFile() {
-    const response = await fetch(
-      new URL("../courses.json", import.meta.url)
+
+  const response = await fetch(
+    new URL("../courses.json", import.meta.url)
+  );
+
+  this.courses = await response.json();
+  const selectedCourses = this.store.getCours();
+
+
+  this.courses.forEach((course) => {
+    const isSelected = selectedCourses.some(
+      (selected) => String(selected.id) === String(course.id)
     );
+    course.seats = isSelected ? 0 : 1;
+    
+    this.store.setSeats(course.id, course.seats);
+  });
+}
 
-    if (!response.ok) {
-      throw new Error("Impossible de charger les cours.");
-    }
-
-    this.courses = await response.json();
-
-    this.courses.forEach((course) => {
-      course.seats = this.store.getSeats(
-        course.id,
-        course.seats
-      );
-    });
-  }
 
   renderSubjects() {
     const selectSubject = this.element.querySelector("#filter-matiere");
@@ -42,7 +44,6 @@ export default class Catalogue  {
 
         option.value = course.subject;
         option.textContent = course.subjectLabel;
-
         selectSubject.append(option);
         subjects.add(course.subject);
       }
@@ -166,9 +167,7 @@ export default class Catalogue  {
       this.addCours();
     } catch (error) {
       console.error(error);
-
       const message = this.element.querySelector("#no-results");
-
       message.hidden = false;
       message.textContent =
         "Impossible de charger les cours. Veuillez réessayer.";

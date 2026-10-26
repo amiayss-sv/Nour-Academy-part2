@@ -8,7 +8,7 @@
     "levelLabel": "2ème Bac",
     "schedule": "Mer. & Sam. · 16h00–17h30",
     "price": 350,
-    "seats": 4
+    "seats": 1
   },
   {
     "id": "cours-2",
@@ -30,7 +30,7 @@
     "levelLabel": "1ère Bac",
     "schedule": "Mar. & Ven. · 18h00–19h30",
     "price": 320,
-    "seats": 0
+    "seats": 1
   },
   {
     "id": "cours-4",
@@ -41,7 +41,7 @@
     "levelLabel": "Primaire",
     "schedule": "Mer. & Sam. · 10h00–11h00",
     "price": 200,
-    "seats": 8
+    "seats": 1
   },
   {
     "id": "cours-5",
@@ -52,7 +52,7 @@
     "levelLabel": "Primaire",
     "schedule": "Mar. & Ven. · 16h00–17h00",
     "price": 200,
-    "seats": 6
+    "seats": 1
   },
   {
     "id": "cours-6",
@@ -63,7 +63,7 @@
     "levelLabel": "Collège",
     "schedule": "Mer. & Sam. · 14h00–15h00",
     "price": 240,
-    "seats": 5
+    "seats": 1
   },
   {
     "id": "cours-7",
@@ -74,7 +74,7 @@
     "levelLabel": "Collège",
     "schedule": "Lun. & Jeu. · 16h00–17h30",
     "price": 260,
-    "seats": 3
+    "seats": 1
   },
   {
     "id": "cours-8",
@@ -85,7 +85,7 @@
     "levelLabel": "Tronc commun",
     "schedule": "Mar. & Ven. · 17h00–18h30",
     "price": 290,
-    "seats": 6
+    "seats": 1
   },
   {
     "id": "cours-9",
@@ -96,7 +96,7 @@
     "levelLabel": "Tronc commun",
     "schedule": "Mer. & Sam. · 15h30–17h00",
     "price": 270,
-    "seats": 0
+    "seats": 1
   },
   {
     "id": "cours-10",
@@ -107,7 +107,7 @@
     "levelLabel": "1ère Bac",
     "schedule": "Lun. & Jeu. · 18h00–19h30",
     "price": 300,
-    "seats": 4
+    "seats": 1
   },
   {
     "id": "cours-11",
@@ -118,7 +118,7 @@
     "levelLabel": "2ème Bac",
     "schedule": "Mar. & Ven. · 18h30–20h00",
     "price": 350,
-    "seats": 2
+    "seats": 1
   },
   {
     "id": "cours-12",
@@ -129,6 +129,6 @@
     "levelLabel": "2ème Bac",
     "schedule": "Mer. & Sam. · 17h30–18h30",
     "price": 280,
-    "seats": 5
+    "seats": 1
   }
 ]

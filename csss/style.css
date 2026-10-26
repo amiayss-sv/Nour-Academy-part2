@@ -830,3 +830,12 @@ select:focus-visible,
 @media (prefers-reduced-motion: reduce) {
   .js .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
+
+
+@media (max-width: 991.98px) {
+  .nav-toggle {
+    position: absolute;
+    z-index: 1500;
+    
+  }
+}

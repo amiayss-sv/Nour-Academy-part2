@@ -15,13 +15,11 @@ const navbar = new Navbar();
 const hero = new Hero();
 const catalogue =  new Catalogue(store);
 const selection = new Selection(store, catalogue);
-const form = new RegistrationForm();
+const form = new RegistrationForm(store);
 const footer = new Footer();
-
 
 form.selection = selection;
 form.catalogue = catalogue;
-
 
 catalogue.selection = selection;
 

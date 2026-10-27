@@ -41,11 +41,19 @@ switch (endpopoint) {
             main.append(selection.render());
             app.append(navbar.render(),main, footer.render());
         break;
-
+    case "catalogue": 
+        main.append(fetchCours);
+        app.append(navbar.render(),main, footer.render()); 
+        break;
+    case "inscription":
+            main.append(form.render());
+            app.append(navbar.render(),main,footer.render());
+        break;
         default:    
             main.append(hero.render(),fetchCours , selection.render(), form.render());
             app.append(navbar.render(),main, footer.render());
     
+          
             
 }        
 

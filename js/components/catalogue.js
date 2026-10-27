@@ -11,7 +11,6 @@ export default class Catalogue  {
   }
 
   async fetchJsonFile() {
-
   const response = await fetch(
     new URL("../courses.json", import.meta.url)
   );

@@ -25,6 +25,7 @@ getSeats(id, defaultSeats) {
     return JSON.stringify(selectedCourses);
   }
 
+  
   convertJson(selectedCourses) {
     return JSON.parse(selectedCourses);
   }

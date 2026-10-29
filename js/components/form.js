@@ -1,11 +1,13 @@
 import Store from "../store.js";
 
 export default class RegistrationForm {
-  constructor(store = new Store()) {
+  constructor(store = new Store(), registrationStorage) {
     this.element = document.createElement("section");
     this.element.className = "section bg-cream-2";
     this.element.id = "inscription";
     this.store = store;
+    this.registrationStorage = registrationStorage;
+
   }
 
   render() {
@@ -341,7 +343,6 @@ export default class RegistrationForm {
       consent,
     ];
 
-    // préparer les messages et les associations accessibles.
 
     fields.forEach((field) => {
       const container = field.closest(
@@ -366,7 +367,6 @@ export default class RegistrationForm {
       );
     });
 
-    // Nom du parent.
     const validateParent = () => {
       const name = parent.value.trim();
       const isValid = this.CheckOnlyCharacter(name);
@@ -418,7 +418,6 @@ export default class RegistrationForm {
 
     phone.addEventListener("input", validatePhone);
 
-    // prenom de l'eleve
     const validateChild = () => {
       const name = child.value.trim();
       const isValid = this.CheckOnlyCharacter(name);
@@ -660,29 +659,59 @@ export default class RegistrationForm {
   }
 
 
-  confirmRegistration() {
-
+confirmRegistration() {
   const form = this.element.querySelector("#registration-form");
   const success = this.element.querySelector("#registration-success");
 
-  const child = form.querySelector("#rf-child").value.trim();
+  const parentName = form.querySelector("#rf-parent").value.trim();
+  const email = form.querySelector("#rf-email").value.trim();
+  const phone = form.querySelector("#rf-phone").value.trim();
+  const childName = form.querySelector("#rf-child").value.trim();
+  const level = form.querySelector("#rf-level");
 
   const courses = [...this.store.getCours()];
 
   const total = courses.reduce(
-
-    (sum, course) => sum + Number(course.price),
+    (sum, course) => sum + Number(course.price || 0),
     0
   );
 
+  const registrations = this.registrationStorage.getAll();
 
-  const number = "NA-" + crypto.randomUUID();
+  const number =
+    `NA-${new Date().getFullYear()}-${String(registrations.length + 1).padStart(3, "0")}`;
 
+  const dossier = {
+    id: registrations.length + 1,
+    dossier: number,
+    parent: parentName,
+    telephone: phone,
+    email: email,
+
+    childs: [
+      {
+        id: Date.now(),
+        name: childName,
+        niveau: level.selectedOptions[0].textContent,
+        courses: courses.map((course) => course.title),
+        status: "En attente",
+        date: new Date().toISOString().slice(0, 10),
+        prix: total,
+        centre: "—"
+      }
+    ],
+
+    center: "—",
+    montant: total
+  };
+
+  this.registrationStorage.add(dossier);
 
   success.innerHTML = `
+    <p>Inscription enregistrée avec succès !</p>
 
-    <p>Inscription validée ! Voici votre récapitulatif :</p>
     <ul class="confirmation-list">
+      <li>Parent : <strong id="summary-parent"></strong></li>
       <li>Élève : <strong id="summary-child"></strong></li>
       <li>Cours : <strong id="summary-courses"></strong></li>
       <li>Total mensuel : <strong id="summary-total"></strong></li>
@@ -690,27 +719,19 @@ export default class RegistrationForm {
     </ul>
   `;
 
-
-  success.querySelector("#summary-child").textContent = child;
+  success.querySelector("#summary-parent").textContent = parentName;
+  success.querySelector("#summary-child").textContent = childName;
 
   success.querySelector("#summary-courses").textContent =
     courses.map((course) => course.title).join(", ");
 
-  success.querySelector("#summary-total").textContent =
-    `${total} MAD`;
-
+  success.querySelector("#summary-total").textContent = `${total} MAD`;
   success.querySelector("#summary-number").textContent = number;
+
 
   courses.forEach((course) => {
     this.store.removeCours(course.id);
     this.store.setSeats(course.id, 1);
-
-
-    const item = this.catalogue.courses.find(
-      (item) => String(item.id) === String(course.id)
-    );
-
-    if (item) item.seats = 1;
   });
 
   this.selection.renderMycours();
@@ -723,14 +744,13 @@ export default class RegistrationForm {
     field.removeAttribute("aria-invalid");
   });
 
-  form.querySelectorAll(".field-error, .field-success").forEach(
-    (message) => {
-      message.style.display = "none";
-    }
-  );
+  form.querySelectorAll(".field-error, .field-success").forEach((message) => {
+    message.style.display = "none";
+  });
 
   success.style.display = "block";
-  success.setAttribute("tabindex", "-1");
   success.focus();
 }
+
+
 }

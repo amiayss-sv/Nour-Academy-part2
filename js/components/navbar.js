@@ -14,7 +14,7 @@ export default class Navbar {
         >
           <a
             class="brand"
-            href="#top"
+            href="#/accueil"
             aria-label="Accueil Nour Academy"
           >
             <span class="brand-mark" aria-hidden="true">
@@ -52,20 +52,20 @@ export default class Navbar {
           <div class="nav-panel" id="nav-panel">
             <ul class="nav-menu">
               <li>
-                <a class="menu-link" href="#catalogue">Catalogue</a>
+                <a class="menu-link" href="#/catalogue">Catalogue</a>
               </li>
               <li>
-                <a class="menu-link" href="#selection">Ma sélection</a>
+                <a class="menu-link" href="#/selection">Ma sélection</a>
               </li>
               <li>
-                <a class="menu-link" href="#inscription">Inscription</a>
+                <a class="menu-link" href="#/inscription">Inscription</a>
               </li>
             </ul>
 
             <div class="nav-cta">
               <a
                 class="button button-coral button-small"
-                href="#inscription"
+                href="#/inscription"
               >
                 S'inscrire
               </a>
@@ -91,7 +91,7 @@ export default class Navbar {
       button.setAttribute("aria-label", "Ouvrir le menu");
     };
 
-    
+
     button.addEventListener("click", () => {
       const isOpen = panel.classList.toggle("open");
 

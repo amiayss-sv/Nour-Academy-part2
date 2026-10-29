@@ -32,7 +32,7 @@ strong, b { font-weight: bolder; }
 small { font-size: 0.875em; }
 img, svg { vertical-align: middle; }
 label { display: inline-block; }
-button, input, select, textarea {
+button, select, textarea {
   margin: 0;
   font: inherit;
 }
@@ -1083,19 +1083,9 @@ select:focus-visible,
 }
 
 
-.admin-layout .input,
-.admin-layout .admin-filters {
-  width: 100%;
-  max-width: 100%;
-  padding: 0;
 
-  display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  gap: 1rem;
-}
 
-.admin-layout .input label,
+.admin-layout  label,
 .admin-layout .admin-filters label {
   display: block;
   margin-bottom: 0.5rem;
@@ -1104,7 +1094,7 @@ select:focus-visible,
   font-weight: 800;
 }
 
-.admin-layout .input input,
+.admin-layout  ,
 .admin-layout .admin-filters input,
 .admin-layout .admin-filters select {
   width: 100%;
@@ -1120,23 +1110,9 @@ select:focus-visible,
   font: inherit;
 }
 
-.admin-layout .input input {
-  max-width: 460px;
-}
-
-.admin-layout .input input:focus,
-.admin-layout .admin-filters input:focus,
-.admin-layout .admin-filters select:focus {
-  border-color: var(--sprout-coral, #ff7a59);
-  outline: 2px solid var(--sprout-coral, #ff7a59);
-  outline-offset: 2px;
-}
 
 
-.admin-layout .admin-filters > div {
-  flex: 1 1 190px;
-  min-width: 0;
-}
+
 
 
 .admin-layout #resultsCount,
@@ -1341,10 +1317,7 @@ select:focus-visible,
     padding: 1rem;
   }
 
-  .admin-layout .input input {
-    max-width: none;
-  }
-
+ 
   .admin-layout .admin-filters > div {
     flex-basis: 100%;
   }
@@ -1386,4 +1359,12 @@ select:focus-visible,
     border: none;
     cursor: pointer;
 }
+.rech-statu {
+display: flex;
+justify-content: space-between;
+}
 
+
+.field-status #searchInput {
+  width: 100px;
+}

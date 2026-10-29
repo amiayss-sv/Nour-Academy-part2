@@ -46,13 +46,8 @@ button.after(action.render());
   // Construire le HTML de la page.
   render() {
     this.element.innerHTML = `
-      <h1>Gestion des inscriptions</h1>
-
+     <div class="rech-statu">
       <div class="input">
-        <label for="searchInput">
-          Rechercher un dossier, un parent ou un enfant :
-        </label>
-
         <input
           type="search"
           id="searchInput"
@@ -60,7 +55,19 @@ button.after(action.render());
           autocomplete="off"
         >
       </div>
-
+    
+      <div class="status">
+            <select
+              class="field-status"
+              status="status"
+            >
+              <option value="">Toutes les etats</option>
+            <option value="attendus">attendus</option>
+             <option value="attendus">accepté</option>
+              <option value="attendus">refusé</option>
+            </select>
+          </div>
+        </div>
       <p id="resultsCount" aria-live="polite"></p>
 
       <div class="table-container">

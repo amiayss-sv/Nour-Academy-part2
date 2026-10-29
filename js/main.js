@@ -122,14 +122,24 @@ function renderNotFound() {
 
   title.textContent = "Page Not found 404";
 
+  return page;
+}
+
+function renderYoucode() {
+  const page = document.createElement("main");
+  const title = document.createElement("h1");
+  title.textContent = "hadi you code  >>>>";
+  title.style.color = "green";
+
   page.append(title);
 
   return page;
 }
 
 //// concept SPA >>>>>>>>>>>>>>>>
+
 const routes = {
-  "/": renderHome,
+  "/": renderInscriptions,
   "/accueil": renderHome,
   "/catalogue": renderCatalogue,
   "/selection": renderSelection,
@@ -137,7 +147,8 @@ const routes = {
   "/admin": renderInscriptions,
   "/inscriptions": renderInscriptions,
   "/tableau-de-bord": renderDashboard,
-  "/404": renderNotFound
+  "/404": renderNotFound,
+  "/youcode": renderYoucode
 };
 
 

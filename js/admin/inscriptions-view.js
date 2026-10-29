@@ -56,17 +56,14 @@ button.after(action.render());
         >
       </div>
     
-      <div class="status">
-            <select
-              class="field-status"
-              status="status"
-            >
+  <div class="status">
+  <select class="field-status" id="status">
               <option value="">Toutes les etats</option>
-            <option value="attendus">attendus</option>
-             <option value="attendus">accepté</option>
-              <option value="attendus">refusé</option>
-            </select>
-          </div>
+              <option value="attendus">attendus</option>
+              <option value="accepté">accepté</option>
+              <option value="refusé">refusé</option>
+  </select>
+  </div>
         </div>
       <p id="resultsCount" aria-live="polite"></p>
 
@@ -108,59 +105,82 @@ button.after(action.render());
     );
 
     this.renderTable();
-
+      this.filterStatus();
     return this.element;
   }
 
   // Filtrer les dossiers selon le texte saisi.
-  getFilteredData() {
-    const query = this.element
-      .querySelector("#searchInput")
-      .value.trim()
-      .toLowerCase();
 
-    return this.storage.getAll()
-      .map((parent) => {
-        const children = Array.isArray(parent.childs)
-          ? parent.childs
-          : [];
+ getFilteredData() {
+  const query = this.element
+    .querySelector("#searchInput")
+    .value.trim()
+    .toLowerCase();
 
-        const parentText = [
-          parent.dossier,
-          parent.parent,
-          parent.telephone,
-          parent.email,
-          parent.center
+  const statut = this.element.querySelector("#status").value;
+  return this.storage.getAll()
+    .map((parent) => {
+      const children = Array.isArray(parent.childs)
+        ? parent.childs
+        : [];
+
+      const parentText = [
+        parent.dossier,
+        parent.parent,
+        parent.telephone,
+        parent.email,
+        parent.center
+      ].join(" ").toLowerCase();
+
+      const parentMatches = parentText.includes(query);
+
+      const visibleChilds = children.filter((child) => {
+        const courses = Array.isArray(child.courses)
+          ? child.courses.join(" ")
+          : "";
+
+        const childText = [
+          child.name,
+          child.niveau,
+          courses,
+          child.status,
+          child.date,
+          child.prix,
+          child.centre,
+          child.conter
         ].join(" ").toLowerCase();
 
-        const parentMatches = parentText.includes(query);
+        // Recherche
+        const matchSearch =
+          !query || parentMatches || childText.includes(query);
 
-        const visibleChilds = children.filter((child) => {
-          const courses = Array.isArray(child.courses)
-            ? child.courses.join(" ")
-            : "";
-
-          const childText = [
-            child.name,
-            child.niveau,
-            courses,
-            child.status,
-            child.date,
-            child.prix,
-            child.centre,
-            child.conter
-          ].join(" ").toLowerCase();
-
-          return !query || parentMatches || childText.includes(query);
-        });
-
-        return {
-          ...parent,
-          visibleChilds
+        // Filtre statut
+        const statusMap = {
+          "En attente": "attendus",
+          "Validée": "accepté",
+          "Payée": "accepté",
+          "Refusée": "refusé",
+          "Refusé": "refusé"
         };
-      })
-      .filter((parent) => parent.visibleChilds.length > 0);
-  }
+
+        const childStatus =
+          statusMap[child.status] || child.status?.toLowerCase();
+
+        const matchStatus =
+          !statut || childStatus === statut;
+
+        return matchSearch && matchStatus;
+      });
+
+      return {
+        ...parent,
+        visibleChilds
+      };
+    })
+    .filter((parent) => parent.visibleChilds.length > 0);
+}
+
+
 
   formatMoney(value) {
     return `${Number(value || 0).toFixed(2)} MAD`;
@@ -332,4 +352,17 @@ button.after(action.render());
       });
     });
   }
+
+
+
+
+filterStatus() {
+  const select = this.element.querySelector("#status");
+  select.addEventListener("change", () => {
+    this.renderTable();
+  });
 }
+
+
+}
+

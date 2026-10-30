@@ -19,5 +19,24 @@ export default class RegistrationStorage {
       JSON.stringify(this.data)
     );
   }
+
+  remove(id) {
+    this.data = this.data.filter(
+      (item) => item.dossier !== id
+    );
+
+    this.save();
+  }
+
+  update(dossier) {
+      for (let i = 0; i < this.data.length; i++) {
+          if (this.data[i].dossier === dossier.dossier) {
+            this.save();
+            this.data[i] = dossier;
+            return;
+          }
+  }
+}
+
 }
 

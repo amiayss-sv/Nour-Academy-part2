@@ -5,7 +5,6 @@ export default class Store {
       this.selectedCourses = JSON.parse(
       localStorage.getItem("courses") || "[]");
   }
-
   setSeats(id, count) {
     this.seats[id] = count;
 
@@ -16,11 +15,9 @@ export default class Store {
 
 }
 
-
 getSeats(id, defaultSeats) {
   return this.seats[id] ?? defaultSeats;
 }
-
   convertString(selectedCourses) {
     return JSON.stringify(selectedCourses);
   }

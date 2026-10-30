@@ -1,9 +1,13 @@
 import InscriptionsView from "../admin/inscriptions-view.js";
 
 export default class Admin {
-  constructor(storage) {
+  constructor(storage, form) {
     this.storage = storage;
-    this.inscriptionsView = new InscriptionsView(storage);
+    this.form = form;
+
+    
+    this.inscriptionsView = new InscriptionsView(storage,form);
+
     this.element = document.createElement("div");
     this.element.className = "container admin-layout";
   }
@@ -15,26 +19,19 @@ export default class Admin {
           <h3>Nour Academy</h3>
           <p>Administration</p>
         </div>
-
         <a class="dashboard" href="#/tableau-de-bord">
           Dashboard
         </a>
-
-        <a class="listes" href="#/inscription">
+        <a class="listes" href="#/inscriptions">
           Inscriptions
         </a>
-
         <a class="listes" href="#/accueil">
           Espace parents
         </a>
       </aside>
-
-      <main class="main">
-
-        ${page === "inscriptions" ? this.renderCards() : ""}
-
-        <div id="admin-content"></div>
-
+    <main class="main">
+      <div id="admin-content"></div>
+        ${page === "dashboard" ? this.renderCards() : ""}
       </main>
     `;
 
@@ -42,21 +39,39 @@ export default class Admin {
 
     if (page === "inscriptions") {
       content.append(this.inscriptionsView.render());
-    } else {
-      content.innerHTML = `
-        <h1>Tableau de bord</h1>
-        <p>Les statistiques seront ajoutées dans cette page.</p>
-      `;
     }
 
     return this.element;
   }
 
-  
+
   renderCards() {
+const dossiers = this.storage.getAll();
+let number_etudiant = 0;
+let enAttente = 0;
+let revenus = 0;
+
+for (let i = 0; i < dossiers.length; i++) {
+  const enfants = dossiers[i].childs;
+
+  if (!Array.isArray(enfants)) continue;
+
+  for (let j = 0; j < enfants.length; j++) {
+    const enfant = enfants[j];
+    number_etudiant++;
+    if (enfant.status === "En attente") {
+      enAttente++;
+    }
+    if (enfant.status === "Payée") {
+      revenus += Number(enfant.prix || 0);
+    }
+  }
+}
+
+const nbDossiers = dossiers.length;
+
     return `
       <section class="cards">
-
         <article class="card">
           <div class="icon purple">
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -67,7 +82,7 @@ export default class Admin {
           </div>
 
           <div>
-            <h2>43436</h2>
+           <h2>${nbDossiers}</h2>
             <p>Monthly Subscription</p>
           </div>
         </article>
@@ -81,7 +96,7 @@ export default class Admin {
           </div>
 
           <div>
-            <h2>3325.00 <strong>DHS</strong></h2>
+              <h2>${revenus.toFixed(2)} <strong>MAD</strong></h2>
             <p>Chiffre d'affaires</p>
           </div>
         </article>
@@ -95,7 +110,7 @@ export default class Admin {
           </div>
 
           <div>
-            <h2>3%</h2>
+           <h2>${enAttente}</h2>
             <p>Churn Rate</p>
           </div>
         </article>
@@ -111,12 +126,13 @@ export default class Admin {
           </div>
 
           <div>
-            <h2>2423</h2>
+            <h2>${number_etudiant}</h2>
             <p>Total Subscription</p>
           </div>
         </article>
-
       </section>
     `;
+
+
   }
 }

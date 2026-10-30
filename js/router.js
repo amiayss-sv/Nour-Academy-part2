@@ -14,7 +14,7 @@ export default class Router {
 
 
     if (!window.location.hash.startsWith("#/")) {
-      window.location.hash = "#/accueil";
+      window.location.hash = "#/admin";
     } else {
       this.render();
     }

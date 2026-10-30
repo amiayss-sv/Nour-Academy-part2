@@ -1,3 +1,4 @@
+
 import Store from "../store.js";
 
 export default class RegistrationForm {
@@ -5,9 +6,10 @@ export default class RegistrationForm {
     this.element = document.createElement("section");
     this.element.className = "section bg-cream-2";
     this.element.id = "inscription";
+
     this.store = store;
     this.registrationStorage = registrationStorage;
-
+    this.editingDossier = null;
   }
 
   render() {
@@ -27,47 +29,19 @@ export default class RegistrationForm {
               <h2>Complétez le dossier d'inscription</h2>
 
               <p class="intro-text">
-                Chaque champ est vérifié au fur et à mesure de la saisie
-                pour éviter les dossiers incomplets ou erronés.
+                Vérifiez les informations avant de valider le dossier.
               </p>
 
               <div class="space-top-large">
                 <div class="enroll-perk">
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="M20 6 9 17l-5-5"
-                      stroke="currentColor"
-                      stroke-width="2.4"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                  Validation en temps réel des champs
+                  Validation des informations
                 </div>
 
                 <div class="enroll-perk">
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="M20 6 9 17l-5-5"
-                      stroke="currentColor"
-                      stroke-width="2.4"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                  Validation bloquée tant que le dossier est incomplet
+                  Vérification des champs obligatoires
                 </div>
 
                 <div class="enroll-perk">
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="M20 6 9 17l-5-5"
-                      stroke="currentColor"
-                      stroke-width="2.4"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
                   Récapitulatif après validation
                 </div>
               </div>
@@ -82,7 +56,7 @@ export default class RegistrationForm {
                 <h3>Formulaire d'inscription</h3>
 
                 <p class="form-note space-bottom-medium">
-                  Tous les champs sont obligatoires.
+                  Tous les champs obligatoires doivent être remplis.
                 </p>
 
                 <div class="layout-row spacing-small">
@@ -172,80 +146,48 @@ export default class RegistrationForm {
                   </div>
 
                   <div class="width-half-small">
-                    <label class="field-label" for="rf-level">
-                      Niveau de l'élève
+                    <label class="field-label" for="rf-center">
+                      Centre
                     </label>
 
                     <select
                       class="field-select"
-                      id="rf-level"
-                      name="level"
+                      id="rf-center"
+                      name="center"
                       required
                     >
-                      <option value="">Choisir un niveau…</option>
-                      <option value="primaire">Primaire</option>
-                      <option value="college">Collège</option>
-                      <option value="tronc-commun">Tronc commun</option>
-                      <option value="1bac">1ère Bac</option>
-                      <option value="2bac">2ème Bac</option>
+                      <option value="">Choisir un centre</option>
+                      <option value="Nador Centre">Nador Centre</option>
+                      <option value="Hay Al Matar">Hay Al Matar</option>
+                      <option value="Selouane">Selouane</option>
                     </select>
 
                     <span class="field-error">
-                      Veuillez choisir un niveau.
-                    </span>
-                    <span class="field-success">Niveau choisi.</span>
-                  </div>
-
-                  <div class="width-half-small"></div>
-
-                  <div class="width-half-small">
-                    <label class="field-label" for="rf-password">
-                      Mot de passe
-                    </label>
-
-                    <input
-                      class="field-input"
-                      id="rf-password"
-                      name="password"
-                      type="password"
-                      required
-                      autocomplete="new-password"
-                      placeholder="8 caractères minimum"
-                    >
-
-                    <span class="field-error">
-                      8 caractères minimum, avec une majuscule,
-                      un chiffre et un caractère spécial.
+                      Veuillez choisir un centre.
                     </span>
                     <span class="field-success">
-                      Mot de passe valide.
+                      Centre sélectionné.
                     </span>
                   </div>
 
-                  <div class="width-half-small">
-                    <label class="field-label" for="rf-password-confirm">
-                      Confirmer le mot de passe
+                  <div
+                    class="width-half-small"
+                    id="status-field"
+                    style="display:none;"
+                  >
+                    <label class="field-label" for="rf-status">
+                      Statut de l'inscription
                     </label>
 
-                    <input
-                      class="field-input"
-                      id="rf-password-confirm"
-                      name="passwordConfirm"
-                      type="password"
-                      required
-                      autocomplete="new-password"
-                      placeholder="Retapez le mot de passe"
-                    >
-
-                    <span class="field-error">
-                      Les mots de passe ne correspondent pas.
-                    </span>
-                    <span class="field-success">
-                      Les mots de passe correspondent.
-                    </span>
+                    <select class="field-select" id="rf-status">
+                      <option value="En attente">En attente</option>
+                      <option value="Validée">Validée</option>
+                      <option value="Payée">Payée</option>
+                      <option value="Refusée">Refusée</option>
+                    </select>
                   </div>
 
-                  <div class="width-full">
+                  <div class="width-full" id="consent-field">
                     <div class="form-check-row">
                       <input
                         type="checkbox"
@@ -263,7 +205,7 @@ export default class RegistrationForm {
                     </div>
 
                     <span class="field-error">
-                      Le consentement est obligatoire pour valider le dossier.
+                      Le consentement est obligatoire.
                     </span>
                     <span class="field-success">
                       Consentement accepté.
@@ -282,17 +224,14 @@ export default class RegistrationForm {
 
                     <button
                       class="button button-coral button-large full-width"
+                      id="submit-registration"
                       type="submit"
                     >
                       Valider mon inscription
                     </button>
 
-                    <p
-                      class="form-note center-text space-top-small no-bottom-space"
-                    >
-                      La validation est bloquée si un champ est invalide,
-                      si la sélection est vide ou si le consentement
-                      n'est pas coché.
+                    <p class="form-note center-text space-top-small no-bottom-space">
+                      Vérifiez vos informations avant de continuer.
                     </p>
                   </div>
 
@@ -314,6 +253,7 @@ export default class RegistrationForm {
     `;
 
     this.handllerForm();
+    this.fillEditForm();
 
     return this.element;
   }
@@ -325,11 +265,8 @@ export default class RegistrationForm {
     const email = form.querySelector("#rf-email");
     const phone = form.querySelector("#rf-phone");
     const child = form.querySelector("#rf-child");
-    const level = form.querySelector("#rf-level");
-    const password = form.querySelector("#rf-password");
-    const confirmation = form.querySelector("#rf-password-confirm");
+    const center = form.querySelector("#rf-center");
     const consent = form.querySelector("#rf-consent");
-
     const selectionError = form.querySelector("#selection-error");
 
     const fields = [
@@ -337,12 +274,9 @@ export default class RegistrationForm {
       email,
       phone,
       child,
-      level,
-      password,
-      confirmation,
-      consent,
+      center,
+      consent
     ];
-
 
     fields.forEach((field) => {
       const container = field.closest(
@@ -358,9 +292,6 @@ export default class RegistrationForm {
       error.id = `${field.id}-error`;
       success.id = `${field.id}-success`;
 
-      error.setAttribute("aria-live", "polite");
-      success.setAttribute("aria-live", "polite");
-
       field.setAttribute(
         "aria-describedby",
         `${error.id} ${success.id}`
@@ -368,196 +299,133 @@ export default class RegistrationForm {
     });
 
     const validateParent = () => {
-      const name = parent.value.trim();
-      const isValid = this.CheckOnlyCharacter(name);
+      const value = parent.value.trim();
+      const valid = this.CheckOnlyCharacter(value);
 
       this.showValidation(
         parent,
-        isValid,
-        name === ""
+        valid,
+        value === ""
           ? "Veuillez saisir votre nom."
-          : "Saisissez au moins 2 caractères, avec des lettres et des séparateurs valides."
+          : "Saisissez un nom valide."
       );
 
-      return isValid;
+      return valid;
     };
 
-    parent.addEventListener("input", validateParent);
-
-    // email ======> 
     const validateEmail = () => {
-      const isValid = this.emailIsValid(email.value);
+      const valid = this.emailIsValid(email.value);
 
       this.showValidation(
         email,
-        isValid,
-        email.value.trim() === ""
-          ? "Veuillez saisir votre email."
-          : "Veuillez saisir un email valide, comme vous@email.com."
+        valid,
+        "Veuillez saisir un email valide."
       );
 
-      return isValid;
+      return valid;
     };
 
-    email.addEventListener("input", validateEmail);
-
-    //elephone.
     const validatePhone = () => {
-      const isValid = this.phoneIsValid(phone.value);
+      const valid = this.phoneIsValid(phone.value);
 
       this.showValidation(
         phone,
-        isValid,
-        phone.value.trim() === ""
-          ? "Veuillez saisir votre numéro de téléphone."
-          : "Format attendu : 06/07 + 8 chiffres, ou +212 6/7 + 8 chiffres."
+        valid,
+        "Veuillez saisir un numéro de téléphone valide."
       );
 
-      return isValid;
+      return valid;
     };
 
-    phone.addEventListener("input", validatePhone);
-
     const validateChild = () => {
-      const name = child.value.trim();
-      const isValid = this.CheckOnlyCharacter(name);
+      const value = child.value.trim();
+      const valid = this.CheckOnlyCharacter(value);
 
       this.showValidation(
         child,
-        isValid,
-        name === ""
+        valid,
+        value === ""
           ? "Veuillez saisir le prénom de l'élève."
-          : "Saisissez au moins 2 caractères, avec des lettres et des séparateurs valides."
+          : "Saisissez un prénom valide."
       );
 
-      return isValid;
+      return valid;
     };
 
-    child.addEventListener("input", validateChild);
-
-    // Niveau  l'eleve
-    const validateLevel = () => {
-      const isValid = level.value !== "";
+    const validateCenter = () => {
+      const valid = center.value !== "";
 
       this.showValidation(
-        level,
-        isValid,
-        "Veuillez choisir un niveau."
+        center,
+        valid,
+        "Veuillez choisir un centre."
       );
 
-      return isValid;
+      return valid;
     };
 
-    level.addEventListener("change", validateLevel);
-
-    /////// confirmation du mot de passe 
-
-    const validateConfirmation = () => {
-      const isValid =
-        confirmation.value !== "" &&
-        confirmation.value === password.value;
-
-      this.showValidation(
-        confirmation,
-        isValid,
-        confirmation.value === ""
-          ? "Veuillez confirmer votre mot de passe."
-          : "Les mots de passe ne correspondent pas."
-      );
-
-      return isValid;
-    };
-
-    confirmation.addEventListener("input", validateConfirmation);
-
-    // mot de passe
-    const validatePassword = () => {
-      const isValid = this.passwordIsValid(password.value);
-
-      this.showValidation(
-        password,
-        isValid,
-        password.value === ""
-          ? "Veuillez saisir un mot de passe."
-          : "8 caractères minimum, avec une majuscule, un chiffre et un caractère spécial."
-      );
-
-      return isValid;
-    };
-
-    password.addEventListener("input", () => {
-      validatePassword();
-
-      // revérifier la confirmation après modification du mot de passe
-      if (confirmation.value !== "") {
-        validateConfirmation();
-      }
-    });
-
-    // consentement
     const validateConsent = () => {
-      const isValid = consent.checked;
+      const valid = consent.checked;
 
       this.showValidation(
         consent,
-        isValid,
-        "Le consentement est obligatoire pour valider le dossier."
+        valid,
+        "Le consentement est obligatoire."
       );
 
-      return isValid;
+      return valid;
     };
 
+    parent.addEventListener("input", validateParent);
+    email.addEventListener("input", validateEmail);
+    phone.addEventListener("input", validatePhone);
+    child.addEventListener("input", validateChild);
+    center.addEventListener("change", validateCenter);
     consent.addEventListener("change", validateConsent);
 
-    // Validation de tous les champs avant de continuer.
     form.addEventListener("submit", (event) => {
-      
       event.preventDefault();
-      
+
       const results = [
         validateParent(),
         validateEmail(),
         validatePhone(),
         validateChild(),
-        validateLevel(),
-        validatePassword(),
-        validateConfirmation(),
-        validateConsent(),
+        validateCenter()
       ];
 
-      const courses = this.store.getCours();
-      const selectionIsEmpty = courses.length === 0;
-
-      selectionError.style.display =
-        selectionIsEmpty ? "block" : "none";
+      if (!this.editingDossier) {
+        results.push(validateConsent());
+      }
 
       if (results.includes(false)) {
         const firstInvalid = fields.find(
           (field) => field.getAttribute("aria-invalid") === "true"
         );
 
-        firstInvalid.focus();
-        return;
-      }
-
-      if (selectionIsEmpty) {
-        const catalogueButton = document.querySelector(
-          "#catalogue .course-add:not(:disabled)"
-        );
-
-        if (catalogueButton) {
-          catalogueButton.focus();
+        if (firstInvalid) {
+          firstInvalid.focus();
         }
 
         return;
       }
 
-      this.showSummary(form, child, level, courses);
-      // afifchage
+      if (this.editingDossier) {
+        this.updateRegistration();
+        return;
+      }
+
+      const courses = this.store.getCours();
+
+      if (courses.length === 0) {
+        selectionError.style.display = "block";
+        return;
+      }
+
+      selectionError.style.display = "none";
       this.confirmRegistration();
     });
   }
-
 
   showValidation(field, isValid, message) {
     const container = field.closest(
@@ -594,163 +462,211 @@ export default class RegistrationForm {
     return /^(0|\+212)[67][0-9]{8}$/.test(number);
   }
 
-  passwordIsValid(password) {
-    return /^(?=.*[A-Z])(?=.*[0-9])(?=.*[^\p{L}\p{N}\s]).{8,}$/u.test(
-      password
-    );
+  prepareEdit(dossier) {
+    this.editingDossier = dossier;
   }
 
+  fillEditForm() {
+    if (!this.editingDossier) return;
 
-  showSummary(form, child, level, courses) {
+    const form = this.element.querySelector("#registration-form");
+    const dossier = this.editingDossier;
+
+    const parent = form.querySelector("#rf-parent");
+    const email = form.querySelector("#rf-email");
+    const phone = form.querySelector("#rf-phone");
+    const childInput = form.querySelector("#rf-child");
+    const centerInput = form.querySelector("#rf-center");
+    const statusField = form.querySelector("#status-field");
+    const status = form.querySelector("#rf-status");
+    const consentField = form.querySelector("#consent-field");
+    const submitButton = form.querySelector("#submit-registration");
+
+    parent.value = dossier.parent || "";
+    email.value = dossier.email || "";
+    phone.value = dossier.telephone || "";
+
+    const children = Array.isArray(dossier.childs)
+      ? dossier.childs
+      : [];
+
+    if (children.length > 0) {
+      const enfant = children[0];
+
+      childInput.value = enfant.name || "";
+      status.value = enfant.status || "En attente";
+
+      if (enfant.centre && enfant.centre !== "—") {
+        centerInput.value = enfant.centre;
+      } else if (dossier.center && dossier.center !== "—") {
+        centerInput.value = dossier.center;
+      } else {
+        centerInput.value = "";
+      }
+    } else {
+      centerInput.value =
+        dossier.center && dossier.center !== "—"
+          ? dossier.center
+          : "";
+    }
+
+    statusField.style.display = "block";
+    consentField.style.display = "none";
+
+    submitButton.textContent = "Enregistrer les modifications";
+  }
+
+  confirmRegistration() {
+    const form = this.element.querySelector("#registration-form");
     const success = this.element.querySelector("#registration-success");
 
-    const title = document.createElement("p");
-    title.textContent =
-      "Formulaire validé. Voici votre récapitulatif :";
+    const parentName = form.querySelector("#rf-parent").value.trim();
+    const email = form.querySelector("#rf-email").value.trim();
+    const phone = form.querySelector("#rf-phone").value.trim();
+    const childName = form.querySelector("#rf-child").value.trim();
+    const center = form.querySelector("#rf-center").value;
 
-    const note = document.createElement("p");
-    note.className = "form-note";
-    note.textContent =
-      "Cette démonstration ne transmet pas les données à un serveur.";
+    const courses = this.store.getCours();
 
-    const list = document.createElement("ul");
-    list.className = "confirmation-list";
+    let total = 0;
+    const courseNames = [];
 
-    const total = courses.reduce(
-      (sum, course) => sum + Number(course.price),
-      0
-    );
+    for (let i = 0; i < courses.length; i++) {
+      total += Number(courses[i].price || 0);
+      courseNames.push(courses[i].title);
+    }
 
-    const details = [
-      ["Élève", child.value.trim()],
-      ["Niveau", level.selectedOptions[0].textContent],
-      [
-        "Cours sélectionnés",
-        courses.map((course) => course.title).join(", "),
+    const firstCourse = courses[0];
+
+    const niveau = firstCourse
+      ? firstCourse.levelLabel || firstCourse.level || "—"
+      : "—";
+
+    const registrations = this.registrationStorage.getAll();
+
+    const number =
+      `NA-${new Date().getFullYear()}-${String(
+        registrations.length + 1
+      ).padStart(3, "0")}`;
+
+    const dossier = {
+      id: registrations.length + 1,
+      dossier: number,
+      parent: parentName,
+      telephone: phone,
+      email: email,
+      childs: [
+        {
+          id: Date.now(),
+          name: childName,
+          niveau: niveau,
+          courses: courseNames,
+          status: "En attente",
+          date: new Date().toISOString().slice(0, 10),
+          prix: total,
+          centre: center
+        }
       ],
-      ["Total mensuel", `${total} MAD`],
-    ];
+      center: center,
+      montant: total
+    };
 
-    details.forEach(([label, value]) => {
-      const item = document.createElement("li");
-      const strong = document.createElement("strong");
+    this.registrationStorage.add(dossier);
 
-      strong.textContent = value;
-      item.append(`${label} : `, strong);
+    success.innerHTML = `
+      <p>Inscription enregistrée avec succès !</p>
 
-      list.append(item);
-    });
-    const editButton = document.createElement("button");
-    editButton.type = "button";
-    editButton.className = "button button-coral";
-    editButton.textContent = "Modifier mes informations";
+      <ul class="confirmation-list">
+        <li>Parent : <strong id="summary-parent"></strong></li>
+        <li>Élève : <strong id="summary-child"></strong></li>
+        <li>Cours : <strong id="summary-courses"></strong></li>
+        <li>Centre : <strong id="summary-center"></strong></li>
+        <li>Total mensuel : <strong id="summary-total"></strong></li>
+        <li>Numéro de dossier : <strong id="summary-number"></strong></li>
+      </ul>
+    `;
 
-    editButton.addEventListener("click", () => {
-      success.style.display = "none";
-      form.style.display = "";
-      child.focus();
-    });
+    success.querySelector("#summary-parent").textContent = parentName;
+    success.querySelector("#summary-child").textContent = childName;
+    success.querySelector("#summary-courses").textContent =
+      courseNames.join(", ");
+    success.querySelector("#summary-center").textContent = center;
+    success.querySelector("#summary-total").textContent = `${total} MAD`;
+    success.querySelector("#summary-number").textContent = number;
 
-  
-    success.replaceChildren(title, list, note, editButton);
+    for (let i = 0; i < courses.length; i++) {
+      this.store.removeCours(courses[i].id);
+      this.store.setSeats(courses[i].id, 1);
+    }
+
+    this.selection.renderMycours();
+    this.catalogue.filterCourses();
+
+    form.reset();
+    this.clearValidation(form);
+
+    this.editingDossier = null;
+
     form.style.display = "none";
     success.style.display = "block";
     success.focus();
   }
 
+  updateRegistration() {
+    const form = this.element.querySelector("#registration-form");
+    const dossier = this.editingDossier;
 
-confirmRegistration() {
-  const form = this.element.querySelector("#registration-form");
-  const success = this.element.querySelector("#registration-success");
+    const center = form.querySelector("#rf-center").value;
 
-  const parentName = form.querySelector("#rf-parent").value.trim();
-  const email = form.querySelector("#rf-email").value.trim();
-  const phone = form.querySelector("#rf-phone").value.trim();
-  const childName = form.querySelector("#rf-child").value.trim();
-  const level = form.querySelector("#rf-level");
+    dossier.parent = form.querySelector("#rf-parent").value.trim();
+    dossier.email = form.querySelector("#rf-email").value.trim();
+    dossier.telephone = form.querySelector("#rf-phone").value.trim();
+    dossier.center = center;
 
-  const courses = [...this.store.getCours()];
+    const children = Array.isArray(dossier.childs)
+      ? dossier.childs
+      : [];
 
-  const total = courses.reduce(
-    (sum, course) => sum + Number(course.price || 0),
-    0
-  );
+    if (children.length > 0) {
+      children[0].name = form.querySelector("#rf-child").value.trim();
+      children[0].status = form.querySelector("#rf-status").value;
+      children[0].centre = center;
+    }
 
-  const registrations = this.registrationStorage.getAll();
+    this.registrationStorage.update(dossier);
 
-  const number =
-    `NA-${new Date().getFullYear()}-${String(registrations.length + 1).padStart(3, "0")}`;
+    this.editingDossier = null;
 
-  const dossier = {
-    id: registrations.length + 1,
-    dossier: number,
-    parent: parentName,
-    telephone: phone,
-    email: email,
+    const success = this.element.querySelector("#registration-success");
 
-    childs: [
-      {
-        id: Date.now(),
-        name: childName,
-        niveau: level.selectedOptions[0].textContent,
-        courses: courses.map((course) => course.title),
-        status: "En attente",
-        date: new Date().toISOString().slice(0, 10),
-        prix: total,
-        centre: "—"
-      }
-    ],
+    const message = document.createElement("p");
+    message.textContent = "Dossier modifié avec succès !";
 
-    center: "—",
-    montant: total
-  };
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "button button-coral";
+    button.textContent = "Retour aux inscriptions";
 
-  this.registrationStorage.add(dossier);
+    button.addEventListener("click", () => {
+      window.location.hash = "#/inscriptions";
+    });
 
-  success.innerHTML = `
-    <p>Inscription enregistrée avec succès !</p>
+    success.replaceChildren(message, button);
 
-    <ul class="confirmation-list">
-      <li>Parent : <strong id="summary-parent"></strong></li>
-      <li>Élève : <strong id="summary-child"></strong></li>
-      <li>Cours : <strong id="summary-courses"></strong></li>
-      <li>Total mensuel : <strong id="summary-total"></strong></li>
-      <li>Numéro de dossier : <strong id="summary-number"></strong></li>
-    </ul>
-  `;
+    form.style.display = "none";
+    success.style.display = "block";
+    success.focus();
+  }
 
-  success.querySelector("#summary-parent").textContent = parentName;
-  success.querySelector("#summary-child").textContent = childName;
+  clearValidation(form) {
+    form.querySelectorAll("input, select").forEach((field) => {
+      field.classList.remove("is-valid", "is-invalid");
+      field.removeAttribute("aria-invalid");
+      field.removeAttribute("aria-describedby");
+    });
 
-  success.querySelector("#summary-courses").textContent =
-    courses.map((course) => course.title).join(", ");
-
-  success.querySelector("#summary-total").textContent = `${total} MAD`;
-  success.querySelector("#summary-number").textContent = number;
-
-
-  courses.forEach((course) => {
-    this.store.removeCours(course.id);
-    this.store.setSeats(course.id, 1);
-  });
-
-  this.selection.renderMycours();
-  this.catalogue.filterCourses();
-
-  form.reset();
-
-  form.querySelectorAll("input, select").forEach((field) => {
-    field.classList.remove("is-valid", "is-invalid");
-    field.removeAttribute("aria-invalid");
-  });
-
-  form.querySelectorAll(".field-error, .field-success").forEach((message) => {
-    message.style.display = "none";
-  });
-
-  success.style.display = "block";
-  success.focus();
-}
-
-
+    form.querySelectorAll(".field-error, .field-success").forEach((message) => {
+      message.style.display = "none";
+    });
+  }
 }

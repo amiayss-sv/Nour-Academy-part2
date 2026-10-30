@@ -67,6 +67,7 @@ export default class InscriptionsView {
         </div>
       </div>
       <div class="status">
+      <!--trier alphabetique-->
                   <label for="sortBy">Trier par</label>
 
                   <select class="field-status" id="sortBy">

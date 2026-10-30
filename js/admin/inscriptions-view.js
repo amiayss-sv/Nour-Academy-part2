@@ -14,9 +14,9 @@ export default class InscriptionsView {
         const wrapper = menu.parentElement;
         const button = wrapper.querySelector(".action");
         const dossierNumber = button.dataset.dossier;
-        const dossier = this.storage.getAll().find(
-          (item) => item.dossier === dossierNumber
-        );
+        const dossier = this.storage
+          .getAll()
+          .find((item) => item.dossier === dossierNumber);
 
         if (!dossier) return;
         this.form.prepareEdit(dossier);
@@ -65,8 +65,7 @@ export default class InscriptionsView {
             <option value="refusé">Refusé</option>
           </select>
         </div>
-      </div>
-      <div class="status">
+     <div class="status">
       <!--trier alphabetique-->
                   <label for="sortBy">Trier par</label>
 
@@ -87,6 +86,10 @@ export default class InscriptionsView {
                     <option value="asc">Croissant</option>
                   </select>
                 </div>
+      </div>
+      
+
+                
       <p id="resultsCount" aria-live="polite"></p>
 
       <div class="table-container">
@@ -114,17 +117,16 @@ export default class InscriptionsView {
       </div>
     `;
 
+    this.element
+      .querySelector("#searchInput")
+      .addEventListener("input", () => this.renderTable());
+    this.element
+      .querySelector("#sortBy")
+      .addEventListener("change", () => this.renderTable());
 
-    this.element.querySelector("#searchInput").addEventListener("input", () => this.renderTable());
-    this.element.querySelector("#sortBy").addEventListener(
-      "change",
-      () => this.renderTable()
-    );
-
-    this.element.querySelector("#sortDirection").addEventListener(
-      "change",
-      () => this.renderTable()
-    );
+    this.element
+      .querySelector("#sortDirection")
+      .addEventListener("change", () => this.renderTable());
     this.filterStatus();
     this.renderTable();
     return this.element;
@@ -141,25 +143,25 @@ export default class InscriptionsView {
     const result = [];
     const statusMap = {
       "En attente": "attendus",
-      "Validée": "accepté",
-      "Payée": "accepté",
-      "Refusée": "refusé",
+      Validée: "accepté",
+      Payée: "accepté",
+      Refusée: "refusé",
     };
 
     for (let i = 0; i < dossiers.length; i++) {
       const parent = dossiers[i];
 
-      const children = Array.isArray(parent.childs)
-        ? parent.childs
-        : [];
+      const children = Array.isArray(parent.childs) ? parent.childs : [];
 
       const parentText = [
         parent.dossier,
         parent.parent,
         parent.telephone,
         parent.email,
-        parent.center
-      ].join(" ").toLowerCase();
+        parent.center,
+      ]
+        .join(" ")
+        .toLowerCase();
 
       const parentMatches = parentText.includes(query);
       const visibleChilds = [];
@@ -178,8 +180,10 @@ export default class InscriptionsView {
           child.date,
           child.prix,
           child.centre,
-          child.conter
-        ].join(" ").toLowerCase();
+          child.conter,
+        ]
+          .join(" ")
+          .toLowerCase();
 
         const matchSearch =
           !query || parentMatches || childText.includes(query);
@@ -188,8 +192,7 @@ export default class InscriptionsView {
           statusMap[child.status] ||
           (child.status ? child.status.toLowerCase() : "");
 
-        const matchStatus =
-          !statut || childStatus === statut;
+        const matchStatus = !statut || childStatus === statut;
 
         if (matchSearch && matchStatus) {
           visibleChilds.push(child);
@@ -199,7 +202,7 @@ export default class InscriptionsView {
       if (visibleChilds.length > 0) {
         result.push({
           ...parent,
-          visibleChilds
+          visibleChilds,
         });
       }
     }
@@ -207,9 +210,7 @@ export default class InscriptionsView {
     const sortBy = this.element.querySelector("#sortBy").value;
 
     const direction =
-      this.element.querySelector("#sortDirection").value === "asc"
-        ? 1
-        : -1;
+      this.element.querySelector("#sortDirection").value === "asc" ? 1 : -1;
 
     result.sort((a, b) => {
       const childA = a.visibleChilds[0] || {};
@@ -235,13 +236,13 @@ export default class InscriptionsView {
         valueB = childB.date || "";
       }
 
-      return String(valueA).localeCompare(
-        String(valueB),
-        "fr",
-        { numeric: true, sensitivity: "base" }
-      ) * direction;
+      return (
+        String(valueA).localeCompare(String(valueB), "fr", {
+          numeric: true,
+          sensitivity: "base",
+        }) * direction
+      );
     });
-
 
     return result;
   }
@@ -253,10 +254,8 @@ export default class InscriptionsView {
   formatDate(value) {
     if (!value) return "—";
 
-    return new Date(`${value}T00:00:00`)
-      .toLocaleDateString("fr-MA");
+    return new Date(`${value}T00:00:00`).toLocaleDateString("fr-MA");
   }
-
 
   getPaymentStatus(children) {
     if (children.length === 0) return "—";
@@ -306,8 +305,7 @@ export default class InscriptionsView {
     for (let i = 0; i < parents.length; i++) {
       totalChildren += parents[i].visibleChilds.length;
     }
-    counter.textContent =
-      `${parents.length} dossier(s) — ${totalChildren} enfant(s) affiché(s)`;
+    counter.textContent = `${parents.length} dossier(s) — ${totalChildren} enfant(s) affiché(s)`;
     if (parents.length === 0) {
       const row = document.createElement("tr");
       const cell = this.createCell("Aucun dossier trouvé.");
@@ -323,9 +321,7 @@ export default class InscriptionsView {
 
       const children = parent.visibleChilds;
 
-      const allChildren = Array.isArray(parent.childs)
-        ? parent.childs
-        : [];
+      const allChildren = Array.isArray(parent.childs) ? parent.childs : [];
 
       const rowSpan = children.length;
 
@@ -341,9 +337,7 @@ export default class InscriptionsView {
         const child = children[j];
         const row = document.createElement("tr");
         if (j === 0) {
-          row.append(
-            this.createCell(parent.dossier, rowSpan)
-          );
+          row.append(this.createCell(parent.dossier, rowSpan));
 
           const parentCell = this.createCell("", rowSpan);
 
@@ -373,7 +367,7 @@ export default class InscriptionsView {
           child.status,
           this.formatDate(child.date),
           this.formatMoney(child.prix),
-          child.centre || child.conter || parent.center || "—"
+          child.centre || child.conter || parent.center || "—",
         ];
 
         for (let k = 0; k < values.length; k++) {
@@ -383,8 +377,7 @@ export default class InscriptionsView {
           if (k === 3) {
             const badge = document.createElement("span");
 
-            badge.className =
-              `status-badge ${this.getStatusClass(value)}`;
+            badge.className = `status-badge ${this.getStatusClass(value)}`;
 
             badge.textContent = value || "—";
             cell.append(badge);
@@ -396,15 +389,12 @@ export default class InscriptionsView {
         }
 
         if (j === 0) {
-          row.append(
-            this.createCell(this.formatMoney(total), rowSpan)
-          );
+          row.append(this.createCell(this.formatMoney(total), rowSpan));
 
           const paymentCell = this.createCell("", rowSpan);
           const paymentBadge = document.createElement("span");
 
-          paymentBadge.className =
-            `status-badge ${this.getStatusClass(payment)}`;
+          paymentBadge.className = `status-badge ${this.getStatusClass(payment)}`;
 
           paymentBadge.textContent = payment;
           paymentCell.append(paymentBadge);
@@ -419,7 +409,7 @@ export default class InscriptionsView {
 
           button.setAttribute(
             "aria-label",
-            `Actions pour le dossier ${parent.dossier}`
+            `Actions pour le dossier ${parent.dossier}`,
           );
 
           const wrapper = document.createElement("div");

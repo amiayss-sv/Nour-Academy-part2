@@ -1196,7 +1196,6 @@ select:focus-visible,
 .admin-layout .badge {
   display: inline-block;
   padding: 0.35rem 0.7rem;
-
   border-radius: 999px;
   background: #fff0ec;
   color: var(--sprout-coral-dark, #f0603f);
@@ -1388,7 +1387,10 @@ justify-content: space-between;
 }
 
 .inscriptions-view #searchInput,
-.inscriptions-view #status {
+.inscriptions-view #status,
+.inscriptions-view #sortBy,
+.inscriptions-view #sortDirection
+ {
   width: 100%;
   height: 46px;
   padding: 0.7rem 1rem;
@@ -1455,3 +1457,5 @@ justify-content: space-between;
     grid-column: 1 / -1;
   }
 }
+
+
